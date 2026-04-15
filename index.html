@@ -16,13 +16,13 @@
     
 <script>
    
-    document.addEventListener('DOMContentLoaded', function() {      // when page has loaded, more or less
+    document.addEventListener('DOMContentLoaded', function() {      
 													  
     	document.querySelector('#btn').onclick = async function(){   
-			var response = await fetch('exam_scores.json');       // ajax GET request
+			var response = await fetch('cit5students.json');       
         	//console.log(response);
 			if(response.ok) {
-				var data = await response.json();                // array of objects
+				var data = await response.json();                
 
 				var tableContents = "<table cellspacing='5'>"
 				tableContents += "<tr><td>Name</td><td>Major</td><td>Midterm</td><td>Final</td></tr>";
@@ -34,7 +34,7 @@
 						<td> ${data[i].major} </td>
 						<td> ${data[i].midterm} </td>
 						<td> ${data[i].final} </td>
-						</tr>`;  // generate table using template literals
+						</tr>`;  
                 }
 					
                 tableContents += "</table>";
