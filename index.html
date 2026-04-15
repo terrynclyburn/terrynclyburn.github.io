@@ -6,8 +6,8 @@
 
     <h1>Select A Major</h1>
         
-    <input type="button" id='btn' value="CIT Majors">
-	<input type="button" id='btn' value="Business Majors">
+    <input type="button" id='btn1' value="CIT Majors">
+	<input type="button" id='btn2' value="Business Majors">
 
 	<h3>We Filter Our Dataset By Major</h3>
 
@@ -18,9 +18,9 @@
    
     document.addEventListener('DOMContentLoaded', function() {      
 													  
-    	document.querySelector('#btn').onclick = async function(){   
+    	document.querySelector('#btn1').onclick = async function(){   
 			var response = await fetch('cit5students.json');       
-        	//console.log(response);
+        	
 			if(response.ok) {
 				var data = await response.json();                
 
