@@ -21,6 +21,7 @@ Hello {{name}} {{major}}  {{midterm}}  {{final}}
     
 <script>
 	var context = {name: studentName, major: studentMajor, midterm: midtermScore, final: finalScore};
+	var source = 
 	var template = handlebars.compile(source);
 	var html = template(context);
    
