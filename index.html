@@ -20,6 +20,9 @@ Hello {{name}} {{major}}  {{midterm}}  {{final}}
  	<div id="result"></div>
     
 <script>
+	var context = {name: studentName, major: studentMajor, midterm: midtermScore, final: finalScore};
+	var template = handlebars.compile(source);
+	var html = template(context);
    
     document.addEventListener('DOMContentLoaded', function() {      
 													  
