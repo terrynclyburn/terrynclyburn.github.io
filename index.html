@@ -1,89 +1,81 @@
 <!DOCTYPE html>
-<html><head>  <meta charset="UTF-8">
-    <title>Program 5</title>
-	<script src= "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-	
-	<script id="text-template" type="text/x-handlebars-template">
-Hello {{name}} {{major}}  {{midterm}}  {{final}}
-	</script> //handlebars
-	
-</head>
-<body style='margin-left: 30px;'>
+<html>
+    <head> 
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+           
+            <title>Program 5</title> 
 
-    <h1>Select A Major</h1>
-        
-    <input type="button" id='btn1' value="CIT Majors">
-	<input type="button" id='btn2' value="Business Majors">
+            <script src= "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
 
-	<h3>We Filter Our Dataset By Major</h3>
-
-             
- 	<div id="result"></div>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     
-<script>
-	var context = {name: studentName, major: studentMajor, midterm: midtermScore, final: finalScore};
-	var source = 
-	var template = handlebars.compile(source);
-	var html = template(context);
-   
-    document.addEventListener('DOMContentLoaded', function() {      
-													  
-    	document.querySelector('#btn1').onclick = async function(){   
-			var response = await fetch('cit5students.json');       
-        	
-			if(response.ok) {
-				var data = await response.json();                
+        <style>
+        .btn {margin: 5px}
+        </style>
 
-				var tableContents = "<table cellspacing='5'>"
-				tableContents += "<b><tr><td>Name</td><td>Major</td><td>Midterm</td><td>Final</td></tr></b>";
-					
-            	for(i = 0; i < data.length; i++) {
-					if(data[i].major === 'CIT') {
-                    tableContents += `
-						<tr>
-						<td> ${data[i].name} </td>
-						<td> ${data[i].major} </td>
-						<td> ${data[i].midterm} </td>
-						<td> ${data[i].final} </td>
-						</tr>`;  
-                }
-				}
-					
-                tableContents += "</table>";
+        </head>
+<body>
+        <div class="container">
 
-                document.querySelector('#result').innerHTML = tableContents;
-			}
-			else {
-				document.querySelector('#result').innerHTML = "<b>Error:</b> Data not found";
-			}	
-    	};
-        document.querySelector('#btn2').onclick = async function(){   
-            var response = await fetch('cit5students.json');       
+            <h1>Select A Major</h1>
+
+                    <div style='padding: 5px;'>
+
+            <button type='button' class="btn btn-primary" onClick="getData('CIT')">CIT Majors</button> 
+            <button type='button' class="btn btn-primary" onClick="getData('BUS')">Business Majors</button> 
+
+	        <h3>We Filter Our Dataset By Major</h3>
             
-            if(response.ok) {
-                var data = await response.json();                
+            <div id="studentTable"></div>
+            </div>
+</body>    
 
-                var tableContents = "<table cellspacing='5'>"
-                tableContents += "<tr><th>Name</th><th>Major</th><th>Midterm</th><th>Final</th></tr>";
-                    
-                for(i = 0; i < data.length; i++) {
-                    if(data[i].major === 'BUS') {
-                        tableContents += `
-                            <tr>
-                            <td> ${data[i].name} </td>
-                            <td> ${data[i].major} </td>
-                            <td> ${data[i].midterm} </td>
-                            <td> ${data[i].final} </td>
-                            </tr>`;  
+
+	<script type="text/x-handlebars-template" id="studentTemplate" >
+        <table cellspacing="12">
+
+            <tr>
+                <th>Name</th>
+                <th>Major</th>
+                <th>Midterm</th>
+                <th>Final</th>
+            </tr>
+            {{#each rows}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{major}}</td>
+                <td>{{midterm}}</td>
+                <td>{{final}}</td>
+            </tr>
+            {{/each}}
+        </table>
+    </script>
+
+    <script>
+        async function getData(major) {
+          var response = await fetch('cit5students.json');
+        
+        if(response.ok) {
+            var data = await response.json();
+            var filtered = [];
+            for(var i = 0; i < data.length; i++) {
+                    if(data[i].major === major) {
+                        filtered.push(data[i]);
                     }
                 }
-		
-	
-  	});
-   
-</script>
-   
-</body>
-</html>
+            var templateSource = document.getElementById('studentTemplate').innerHTML;
+            var template = Handlebars.compile(templateSource);
+            var html = template({rows: filtered});
+            
+            document.querySelector('#studentTable').innerHTML = html;
+            } else {
+                document.querySelector('#studentTable').innerHTML = "Data not found";
+            }
+        }
 
+    </script>
+</html>
 
